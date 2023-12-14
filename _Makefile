@@ -1,0 +1,29 @@
+APPNAME=bm3d
+OBJS=bm3d.o denoise.o
+LIBS=cufft cudart
+LDLIBS=$(addprefix -l,$(LIBS))
+CXX=g++ -w -m64 -std=c++11
+CXXFLAGS = -O3 -Wall -Wno-unknown-pragmas
+CVFLAGS=$(shell pkg-config --cflags --libs opencv)
+
+LDFLAGS=-L"C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v11.6/lib/x64" -lcudart
+INCLUDE="C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v11.6/include"
+NVCCFLAGS=-O3 -m64 --gpu-architecture compute_86
+NVCC=nvcc
+
+default: $(APPNAME)
+
+denoise: bm3d.o denoise.o
+	$(NVCC) $(NVCCFLAGS) $(LDFLAGS) $(LDLIBS) $(CVFLAGS) bm3d.o denoise.o -o $@
+
+$(APPNAME): $(OBJS)
+	$(NVCC) $(NVCCFLAGS) $(LDFLAGS) $(LDLIBS) $(OBJS) -o $@
+
+%.o: %.cpp
+	$(CXX) $(CXXFLAGS) $(LDFLAGS) $(CVFLAGS) $(addprefix -I,$(INCLUDE)) -c $< -o $@
+
+%.o: %.cu
+	$(NVCC) $(NVCCFLAGS) $(LDFLAGS) $(addprefix -I,$(INCLUDE)) -c $< -o $@
+
+clean:
+	rm *.o
