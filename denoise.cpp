@@ -77,8 +77,6 @@ int main(int argc, char **argv) {
   CImg<float> image;
   image.load_raw(input_file.c_str(), 512, 512);
 
-  CImg<float> image2(image.width(), image.height(), 1, channels, 0);
-
   // Check for invalid input
   if (!image.data()) {
     fprintf(stderr, "Error: Could not open file\n");
@@ -87,19 +85,19 @@ int main(int argc, char **argv) {
 
   printf("Width: %d, Height: %d\n", image.width(), image.height());
 
-  // Launch BM3D
-  Bm3d bm3d;
-  bm3d.set_up_realtime(image.width(), image.height(), channels);
-
   // time it
   Stopwatch timer;
   timer.start();
+  // Launch BM3D
+  CImg<float> image2(image.width(), image.height(), 1, channels, 0);
+  Bm3d bm3d;
+  bm3d.set_up_realtime(image.width(), image.height(), channels);
   for (int i = 0; i < 100; i++) {
     bm3d.realtime_denoise(image.data(), image2.data());
     cudaDeviceSynchronize();
   }
   timer.stop();
-  printf("100 circle, timer [sec]: %f \n", timer.getSeconds());
+  printf("100 cycle, timer [sec]: %f \n", timer.getSeconds());
 
   image2 = image2.get_channel(0);
   image2.save(output_file.c_str());
