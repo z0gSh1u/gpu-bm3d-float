@@ -68,7 +68,6 @@ __global__ void hard_filter(cufftComplex *d_transformed_stacks, float *d_weight)
     y = d_transformed_stacks[offset + i].y;
     val = x * x + y * y;
     if (val < threshold) {
-      // printf("below threshold\n");
       x = 0.0f;
       y = 0.0f;
     } else {
@@ -340,7 +339,6 @@ void Bm3d::denoise_fst_step() {
   arrange_block(d_noisy_image);
 
   // perform 3D dct transform;
-
   if (cufftExecC2C(plan3D, d_transformed_stacks, d_transformed_stacks, CUFFT_FORWARD) !=
       CUFFT_SUCCESS) {
     fprintf(stderr, "CUFFT error: 3D Forward failed");
@@ -420,7 +418,6 @@ void Bm3d::arrange_block(float *input_data) {
                                                                  input_data, d_transformed_stacks);
   cudaDeviceSynchronize();
   arrange.stop();
-  // printf("Arrange block takes %f\n", arrange.getSeconds());
 }
 
 /*
@@ -437,7 +434,6 @@ void Bm3d::do_block_matching(float *input_image, const uint distance_threshold) 
                                                     distance_threshold);
   cudaDeviceSynchronize();
   bm_time.stop();
-  // printf("Block Matching: %f\n", bm_time.getSeconds());
 }
 
 void Bm3d::hard_threshold() {
@@ -448,7 +444,6 @@ void Bm3d::hard_threshold() {
   hard_filter<<<num_blocks, thread_per_block>>>(d_transformed_stacks, d_weight);
   cudaDeviceSynchronize();
   hard_threshold.stop();
-  // printf("Hard threshold takes %.5f\n", hard_threshold.getSeconds());
 }
 
 void Bm3d::cal_wiener_coef() {
@@ -459,7 +454,6 @@ void Bm3d::cal_wiener_coef() {
   get_wiener_coef<<<num_blocks, thread_per_block>>>(d_transformed_stacks, d_wien_coef);
   cudaDeviceSynchronize();
   wiener_coef.stop();
-  // printf("Get wiener takes %.5f\n", wiener_coef.getSeconds());
 }
 
 void Bm3d::apply_wien_filter() {
@@ -471,7 +465,6 @@ void Bm3d::apply_wien_filter() {
                                                       d_wien_weight);
   cudaDeviceSynchronize();
   apply_wiener.stop();
-  // printf("Apply wiener takes %.5f\n", apply_wiener.getSeconds());
 }
 
 void Bm3d::do_aggregation(float *weight) {
@@ -489,5 +482,4 @@ void Bm3d::do_aggregation(float *weight) {
                                                    num_pixels);
   cudaDeviceSynchronize();
   ag_time.stop();
-  // printf("Aggregation: %f\n", ag_time.getSeconds());
 }

@@ -9,7 +9,7 @@ find_package(CUDAToolkit REQUIRED)
 
 include_directories(${CUDA_INCLUDE_DIRS})
 include_directories(${CUDAToolkit_INCLUDE_DIRS})
-include_directories("D:/gpu-bm3d/")
+include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 
 set(SOURCE_FILES bm3d.cu denoise.cpp getopt.cpp)
 

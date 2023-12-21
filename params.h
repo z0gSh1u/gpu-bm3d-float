@@ -27,10 +27,9 @@ struct Params {
   float beta; // Kaiser window parameter that affects the sidelobe attenuation of the transform of
               // the window.
 
-  // [ VNC ]
-  Params(unsigned int searching_window_size = 16, unsigned int patch_size = 8,
-         unsigned int max_group_size = 16, unsigned int distance_threshold_1 = 20*10 * 8 * 8,
-         unsigned int distance_threshold_2 = 100 * 8 * 8, unsigned int stripe = 3, float sigma = 20,
+  Params(unsigned int searching_window_size = 32, unsigned int patch_size = 8,
+         unsigned int max_group_size = 8, unsigned int distance_threshold_1 = 3000 * 8 * 8,
+         unsigned int distance_threshold_2 = 400 * 8 * 8, unsigned int stripe = 4, float sigma = 20,
          float lambda_3d = 2.7f, float beta = 2.0f)
       : searching_window_size(searching_window_size), patch_size(patch_size),
         max_group_size(max_group_size), distance_threshold_1(distance_threshold_1),

@@ -11,10 +11,6 @@
 #include <cufft.h>
 #include "stopwatch.hpp"
 
-#ifndef uchar
-#define uchar unsigned char
-#endif
-
 #define idx2(x, y, dim_x) ((x) + ((y) * (dim_x)))
 #define idx3(x, y, z, dim_x, dim_y) ((x) + ((y) * (dim_x)) + ((z) * (dim_x) * (dim_y)))
 #define BATCH_2D 512
@@ -38,7 +34,6 @@ private:
                                 // stored in d_stacks
   float *d_numerator;           // Numerator used for aggregation
   float *d_denominator;         // Denminator used for aggregation
-  // cuComplex* d_transformed_stacks;    //3D groups of a batch
   float *d_weight;        // Weights for aggregation
   float *d_wien_coef;     // Only for two step denoising, contains wiener coefficients
   float *d_wien_weight;   // wiener coefficient norm for each group

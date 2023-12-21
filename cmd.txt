@@ -1,1 +1,0 @@
-bm3d.exe -s 30 -t 2 -v vnc_noisy.raw vnc_out.raw
