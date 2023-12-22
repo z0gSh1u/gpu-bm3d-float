@@ -14,5 +14,5 @@ $ bm3d -s 20  # noise level (sigma)
        lena_denoised.raw # output float32 raw image
 ```
 
-Note that in this implementation, the Discrete Cosine Transform (DCT) is substituted by Discrete Fourier Transform (DCT/FFT), which is different from the official implementation. Also, you might need to finetune those parameters in [params.h](params.h).
+Note that in this implementation, the Discrete Cosine Transform (DCT) is substituted by Discrete Fourier Transform (DFT/FFT), which is different from the official implementation. Also, you might need to finetune those parameters in [params.h](params.h).
 
