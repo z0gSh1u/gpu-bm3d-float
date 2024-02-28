@@ -1,4 +1,4 @@
-# bm3d-float-cuda
+# gpu-bm3d-float
 
 This is the implementation of BM3D based on [JeffOwOSun/gpu-bm3d](https://github.com/JeffOwOSun/gpu-bm3d) with supports for float32 images, and CMake cross-platform compilation (Windows and Linux both OK).
 
